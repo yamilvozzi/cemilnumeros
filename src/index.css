@@ -1,0 +1,585 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:           #161412;
+  --bg-card:      #1e1b18;
+  --bg-input:     #272320;
+  --bg-hover:     #2c2925;
+  --border:       #38322c;
+  --border-soft:  #2a2520;
+
+  /* Text scale */
+  --text:         #ddd5c8;   /* off-white — cuerpo general, stat-value base */
+  --text-label:   #ddd5c8;   /* off-white — labels, headers, stat-label */
+  --text-muted:   #ddd5c8;   /* off-white — fechas, categorías secundarias */
+  --text-dim:     #9a8c7c;   /* marrón medio — placeholders, hints */
+
+  /* Acento principal */
+  --accent:       #e8912a;
+  --accent-lite:  rgba(232,145,42,0.12);
+  --accent-hover: #f0a040;
+
+  --green:        #6dba8a;
+  --green-lite:   rgba(109,186,138,0.12);
+  --red:          #cc6060;
+  --red-lite:     rgba(204,96,96,0.12);
+
+  /* Usuarios */
+  --yamil:        #4aa8b2;
+  --yamil-lite:   rgba(74,168,178,0.12);
+  --celeste-c:    #d47898;
+  --celeste-lite: rgba(212,120,152,0.12);
+
+  /* Medios de pago */
+  --pm-visa:        #8fc49a;                  /* verde sage */
+  --pm-visa-lite:   rgba(143,196,154,0.12);
+  --pm-amex:        #c8b96a;                  /* amarillo sage apagado */
+  --pm-amex-lite:   rgba(200,185,106,0.12);
+  --pm-debito:      #9a8c7c;                  /* mismo que efectivo — neutro */
+  --pm-debito-lite: rgba(154,140,124,0.12);
+
+  --radius:    14px;
+  --radius-sm: 9px;
+  --radius-xs: 6px;
+  --shadow:    0 8px 32px rgba(0,0,0,0.45);
+
+  --font: 'Outfit', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: var(--font); cursor: pointer; border: none; outline: none; }
+
+input, select, textarea {
+  font-family: var(--font); font-size: 0.92rem;
+  background: var(--bg-input); border: 1px solid var(--border);
+  color: var(--text); border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem; width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-lite);
+}
+select option { background: var(--bg-card); }
+
+/* Remove number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── LAYOUT ─────────────────────────────── */
+
+.app-layout { display: flex; min-height: 100dvh; }
+
+.sidebar {
+  width: 220px; flex-shrink: 0;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border-soft);
+  display: flex; flex-direction: column;
+  padding: 1.5rem 1rem 1.25rem;
+  position: sticky; top: 0; height: 100dvh;
+}
+
+.sidebar-logo { margin-bottom: 1.75rem; padding: 0.25rem 0.5rem; }
+.sidebar-logo-main {
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -0.03em; line-height: 1;
+}
+.sidebar-logo-sub {
+  font-size: 0.65rem; font-weight: 500;
+  color: var(--text-dim); letter-spacing: 0.14em;
+  text-transform: uppercase; margin-top: 0.25rem;
+}
+
+.nav-list { list-style: none; display: flex; flex-direction: column; gap: 0.15rem; flex: 1; }
+
+.nav-item button {
+  width: 100%; background: none;
+  color: var(--text);              /* crema — inactivos ahora más visibles */
+  padding: 0.6rem 0.75rem; border-radius: var(--radius-sm);
+  font-size: 0.85rem; font-weight: 500; text-align: left;
+  transition: background 0.15s, color 0.15s;
+  display: flex; align-items: center; gap: 0.65rem;
+}
+.nav-item button:hover { background: var(--bg-hover); color: var(--text); }
+.nav-item button.active { background: var(--accent-lite); color: var(--accent); font-weight: 600; }
+.nav-icon { width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+
+.sidebar-footer { border-top: 1px solid var(--border-soft); padding-top: 0.9rem; margin-top: 0.9rem; }
+.sidebar-user-pill { display: flex; align-items: center; gap: 0.55rem; padding: 0.4rem 0.5rem; border-radius: var(--radius-sm); margin-bottom: 0.4rem; }
+.sidebar-user-name { font-size: 0.82rem; font-weight: 600; }
+
+.btn-signout {
+  width: 100%; background: none;
+  color: var(--text-label);
+  font-size: 0.75rem; font-weight: 500;
+  padding: 0.35rem 0.5rem; border-radius: var(--radius-xs);
+  text-align: left; transition: color 0.15s, background 0.15s;
+  font-family: var(--font); cursor: pointer; border: none;
+}
+/* Hover suave — gris, no rojo (no es acción destructiva) */
+.btn-signout:hover { color: var(--text); background: var(--bg-hover); }
+
+.main-content { flex: 1; padding: 1.75rem 2.25rem; overflow-y: auto; max-width: 1000px; }
+
+/* ── CARDS ─────────────────────────────── */
+.card     { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius);    padding: 1.4rem; }
+.card-sm  { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 0.85rem 1rem; }
+.card-flat{ background: var(--bg-hover); border-radius: var(--radius-sm); padding: 0.85rem 1rem; }
+
+/* ── GRID ──────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr;        gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr;    gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+
+/* ── STATS ─────────────────────────────── */
+.stat-label {
+  font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-label);
+  margin-bottom: 0.35rem;
+}
+/* stat-value base ahora igual que stat-label (off-white) */
+.stat-value { font-size: 1.45rem; font-weight: 700; color: var(--text); line-height: 1; letter-spacing: -0.02em; }
+.stat-value.positive { color: var(--green); }
+.stat-value.negative { color: var(--red); }
+.stat-value.accent   { color: var(--accent); }
+.stat-value.muted    { color: var(--text-dim); }
+
+/* ── BUTTONS ───────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 1rem; border-radius: var(--radius-sm);
+  font-size: 0.85rem; font-weight: 600; font-family: var(--font);
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  letter-spacing: 0.01em; cursor: pointer; border: none;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary  { background: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(232,145,42,0.3); }
+.btn-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 14px rgba(232,145,42,0.4); }
+.btn-secondary { background: var(--bg-input); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-hover); }
+.btn-danger { background: none; color: var(--text-dim); border: 1px solid transparent; padding: 0.28rem 0.45rem; font-size: 0.78rem; border-radius: var(--radius-xs); }
+.btn-danger:hover { color: var(--red); border-color: var(--red); background: var(--red-lite); }
+.btn-ghost { background: none; color: var(--text-muted); padding: 0.28rem 0.45rem; border-radius: var(--radius-xs); font-size: 0.82rem; }
+.btn-ghost:hover { color: var(--text); background: var(--bg-hover); }
+.btn-soft { background: var(--accent-lite); color: var(--accent); border: 1px solid rgba(232,145,42,0.25); }
+.btn-soft:hover { background: rgba(232,145,42,0.22); }
+
+/* ── TAGS ──────────────────────────────── */
+.tag { display: inline-flex; align-items: center; padding: 0.16rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em; }
+
+/* Usuario */
+.tag-yamil    { background: var(--yamil-lite);     color: var(--yamil); }
+.tag-celeste  { background: var(--celeste-lite);   color: var(--celeste-c); }
+
+/* Tipo de movimiento */
+.tag-income   { background: var(--green-lite);     color: var(--green); }
+.tag-expense  { background: var(--red-lite);       color: var(--red); }
+
+/* Compartido — naranja apagado, menos dominante */
+.tag-shared   { background: rgba(232,145,42,0.08); color: rgba(232,145,42,0.7); }
+
+/* Medios de pago */
+.tag-visa     { background: var(--pm-visa-lite);   color: var(--pm-visa); }
+.tag-amex     { background: var(--pm-amex-lite);   color: var(--pm-amex); }
+.tag-debito   { background: var(--pm-debito-lite); color: var(--pm-debito); }
+.tag-efectivo { background: rgba(154,140,124,0.12);color: #9a8c7c; }
+
+/* Legacy aliases */
+.tag-visa_yamil   { background: var(--pm-visa-lite);  color: var(--pm-visa); }
+.tag-visa_celeste { background: var(--pm-visa-lite);  color: var(--pm-visa); }
+.tag-amex_yamil   { background: var(--pm-amex-lite);  color: var(--pm-amex); }
+.tag-amex_celeste { background: var(--pm-amex-lite);  color: var(--pm-amex); }
+
+/* ── PAGE HEADER ───────────────────────── */
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; gap: 1rem; }
+.page-title  { font-size: 1.6rem; font-weight: 700; color: var(--accent); letter-spacing: -0.025em; }
+
+/* ── MONTH SELECTOR ────────────────────── */
+.month-selector { display: flex; align-items: center; gap: 0.35rem; background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-sm); padding: 0.28rem 0.55rem; }
+.month-selector span { font-size: 0.82rem; font-weight: 600; min-width: 110px; text-align: center; color: var(--text-muted); text-transform: capitalize; }
+
+/* ── TABLES ────────────────────────────── */
+.table-wrapper { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead th {
+  text-align: left; padding: 0.55rem 0.8rem;
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-label); font-weight: 700;
+  border-bottom: 1px solid var(--border-soft);
+}
+tbody tr { border-bottom: 1px solid var(--border-soft); transition: background 0.1s; }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--bg-hover); }
+tbody td { padding: 0.65rem 0.8rem; color: var(--text); }
+
+/* ── DEBT CALLOUT ──────────────────────── */
+.debt-callout { background: linear-gradient(135deg, rgba(232,145,42,0.1), rgba(232,145,42,0.04)); border: 1px solid rgba(232,145,42,0.25); border-radius: var(--radius); padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 1rem; }
+.debt-callout-text   { font-size: 0.92rem; color: var(--text); font-weight: 500; }
+.debt-callout-amount { font-size: 1.35rem; font-weight: 700; color: var(--accent); margin-top: 0.1rem; letter-spacing: -0.02em; }
+.debt-ok { background: linear-gradient(135deg, rgba(109,186,138,0.1), rgba(109,186,138,0.04)); border-color: rgba(109,186,138,0.25); }
+
+/* ── MODAL ─────────────────────────────── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+.modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.75rem; width: 100%; max-width: 480px; box-shadow: var(--shadow); animation: modal-in 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes modal-in { from { opacity:0; transform:translateY(14px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+.modal-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.4rem; color: var(--text); letter-spacing: -0.01em; }
+
+/* ── CONFIRM ───────────────────────────── */
+.confirm-dialog { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem; width: 100%; max-width: 340px; box-shadow: var(--shadow); animation: modal-in 0.18s ease; text-align: center; }
+.confirm-dialog p  { color: var(--text-muted); font-size: 0.875rem; margin: 0.4rem 0 1.4rem; }
+.confirm-dialog h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+.confirm-actions   { display: flex; gap: 0.65rem; justify-content: center; }
+
+/* ── FORMS ─────────────────────────────── */
+.form-row     { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 0.9rem; }
+.form-label   { font-size: 0.72rem; font-weight: 600; color: var(--text-label); letter-spacing: 0.03em; text-transform: uppercase; }
+.form-grid-2  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.form-actions { display: flex; gap: 0.65rem; justify-content: flex-end; margin-top: 1.4rem; }
+
+/* ── TOGGLE ────────────────────────────── */
+.toggle-wrapper { display: flex; align-items: center; gap: 0.7rem; cursor: pointer; user-select: none; }
+.toggle { width: 38px; height: 21px; background: var(--border); border-radius: 99px; position: relative; transition: background 0.2s; flex-shrink: 0; }
+.toggle.on { background: var(--accent); }
+.toggle::after { content:''; position:absolute; top:3px; left:3px; width:15px; height:15px; background:white; border-radius:50%; transition:transform 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.toggle.on::after { transform:translateX(17px); }
+
+/* ── USER DOTS ─────────────────────────── */
+.user-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; display:inline-block; }
+.user-dot.yamil   { background: var(--yamil); }
+.user-dot.celeste { background: var(--celeste-c); }
+
+/* ── SECTION TITLE ─────────────────────── */
+.section-title {
+  font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--text-label);
+  margin-bottom: 0.8rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+/* ── EMPTY / LOADING ───────────────────── */
+.empty-state { text-align:center; padding:3rem; color:var(--text-dim); font-size:0.875rem; }
+.loading     { display:flex; align-items:center; justify-content:center; height:180px; color:var(--text-muted); font-size:0.875rem; }
+
+/* ── TOTAL BAR ─────────────────────────── */
+.total-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.7rem 0.85rem;
+  background: var(--bg-hover);
+  border-top: 1px solid var(--border-soft);
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--text-label);
+}
+
+/* ── ACCOUNT ENTITY ────────────────────── */
+.account-entity {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem; background: var(--bg-hover);
+  border-radius: var(--radius-sm); gap: 0.75rem;
+}
+.account-entity-name  { font-size: 0.875rem; font-weight: 500; color: var(--text-muted); }
+.account-entity-value { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+
+/* ── SPACING ───────────────────────────── */
+.mt-1{margin-top:.5rem}.mt-2{margin-top:1rem}.mt-3{margin-top:1.5rem}
+.mb-1{margin-bottom:.5rem}.mb-2{margin-bottom:1rem}.mb-3{margin-bottom:1.5rem}
+.flex{display:flex}.flex-col{flex-direction:column}
+.items-center{align-items:center}.justify-between{justify-content:space-between}
+.w-full{width:100%}.gap-1{gap:.5rem}.gap-2{gap:1rem}
+
+/* ── LOGIN ─────────────────────────────── */
+.login-page { min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:1.5rem; background:var(--bg); position:relative; overflow:hidden; }
+.login-page::before { content:''; position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(232,145,42,0.07) 0%, transparent 70%); top:-80px; left:-80px; pointer-events:none; }
+.login-box { width:100%; max-width:360px; position:relative; z-index:1; }
+.login-header { text-align:center; margin-bottom:2rem; }
+.login-title { font-size:2.4rem; font-weight:800; color:var(--accent); letter-spacing:-0.04em; line-height:1; }
+.login-subtitle { font-size:0.75rem; font-weight:500; color:var(--text-dim); letter-spacing:0.22em; text-transform:uppercase; margin-top:0.4rem; }
+
+
+/* ── MOBILE ────────────────────────────── */
+/* Todo lo que sigue aplica SOLO a pantallas ≤ 768px  */
+/* El desktop (≥ 769px) no se toca en absoluto        */
+
+@media (max-width: 768px) {
+
+  /* Estructura general */
+  .app-layout { flex-direction: column; }
+  .main-content {
+    padding: 1rem;
+    max-width: 100%;
+    padding-bottom: 5rem; /* espacio para la bottom nav */
+  }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .form-grid-2 { grid-template-columns: 1fr; }
+  .page-title { font-size: 1.25rem; }
+
+  /* ── SIDEBAR → oculto completamente en móvil ── */
+  .sidebar { display: none; }
+
+  /* ── BOTTOM NAV ─────────────────────────────── */
+  /* Navegación principal fija en la parte inferior */
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    height: 60px;
+  }
+  .mobile-bottom-nav button {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.6rem;
+    font-weight: 600;
+    font-family: var(--font);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.15s;
+    padding: 0.5rem 0.25rem;
+    border-top: 2px solid transparent;
+  }
+  .mobile-bottom-nav button.active {
+    color: var(--accent);
+    border-top-color: var(--accent);
+  }
+  .mobile-bottom-nav button svg {
+    width: 20px; height: 20px;
+  }
+
+  /* ── TOP BAR (usuario + salir) ──────────────── */
+  /* Barra superior fina con nombre de usuario y botón salir */
+  .mobile-top-bar {
+    position: sticky;
+    top: 0; left: 0; right: 0;
+    z-index: 90;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 1rem;
+  }
+  .mobile-top-bar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .mobile-top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Ocultar la vieja mobile-user-bar (reemplazada por top/bottom) */
+  .mobile-user-bar { display: none; }
+
+  /* ── SELECTOR DE MES en top bar ─────────────── */
+  .month-selector {
+    padding: 0.2rem 0.45rem;
+  }
+  .month-selector span {
+    font-size: 0.75rem;
+    min-width: 90px;
+  }
+
+  /* ── DASHBOARD: stats compactos ─────────────── */
+  /* En móvil los 3 stats van en una fila horizontal compacta */
+  .dashboard-stats-mobile {
+    display: flex;
+    gap: 0;
+  }
+  .dashboard-stats-mobile > div {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+    border-right: 1px solid var(--border-soft);
+  }
+  .dashboard-stats-mobile > div:last-child {
+    border-right: none;
+  }
+  .dashboard-stats-mobile .stat-value {
+    font-size: 1rem;
+  }
+  .dashboard-stats-mobile .stat-label {
+    font-size: 0.6rem;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── TARJETAS VISA/AMEX compactas ───────────── */
+  /* En vez de dos cards apiladas, una sola fila horizontal */
+  .mobile-card-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .mobile-card-row .card-sm {
+    flex: 1;
+    padding: 0.65rem 0.75rem;
+  }
+  .mobile-card-row .stat-value {
+    font-size: 0.95rem;
+  }
+  .mobile-card-row .stat-label {
+    font-size: 0.6rem;
+  }
+
+  /* ── GASTOS FIJOS: totales compactos ────────── */
+  /* 2x2 grid en vez de 4 en fila */
+  .fixed-totals-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .fixed-totals-mobile .card-sm {
+    padding: 0.65rem 0.75rem;
+  }
+  .fixed-totals-mobile .stat-value {
+    font-size: 0.95rem;
+  }
+  .fixed-totals-mobile .stat-label {
+    font-size: 0.6rem;
+  }
+
+  /* ── TABLAS MÓVIL: ocultar Categoría y Medio ── */
+  .col-categoria,
+  .col-medio,
+  th.col-categoria,
+  th.col-medio,
+  td.col-categoria,
+  td.col-medio { display: none; }
+
+  /* ── TABLA MOVIMIENTOS: filas más compactas ─── */
+  tbody td { padding: 0.55rem 0.65rem; font-size: 0.82rem; }
+  thead th  { padding: 0.45rem 0.65rem; }
+
+}
+
+/* Desktop: ocultar elementos exclusivos de móvil */
+@media (min-width: 769px) {
+  .mobile-user-bar    { display: none; }
+  .mobile-bottom-nav  { display: none; }
+  .mobile-top-bar     { display: none; }
+  .mobile-card-row    { display: contents; } /* transparente en desktop */
+  .fixed-totals-mobile{ display: contents; }
+  .dashboard-stats-mobile { display: contents; }
+}
+
+/* Selector de mes en main-content: visible en desktop, oculto en móvil */
+@media (max-width: 768px) {
+  .desktop-month-selector { display: none !important; }
+}
+
+/* Helpers de visibilidad desktop/móvil */
+@media (max-width: 768px) {
+  .mobile-hidden  { display: none !important; }
+  .desktop-only   { display: none !important; }
+  /* Ocultar también la columna "Nota" en transferencias en pantallas muy chicas */
+  .col-nota       { display: none; }
+}
+@media (min-width: 769px) {
+  .desktop-hidden { display: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   TEMA CLARO — Celeste
+   Se activa cuando <html> tiene la clase "theme-light".
+   Solo sobreescribe variables de color. Nada más cambia.
+   ══════════════════════════════════════════════════════════════ */
+
+.theme-light {
+  --bg:           #f5f0ea;
+  --bg-card:      #fdfaf6;
+  --bg-input:     #ede8e0;
+  --bg-hover:     #e8e2d8;
+  --border:       #c8bfb2;
+  --border-soft:  #ddd5c8;
+
+  --text:         #1a1612;
+  --text-label:   #2e2820;
+  --text-muted:   #5c4f42;
+  --text-dim:     #9a8c7c;
+
+  --accent:       #d4791e;
+  --accent-lite:  rgba(212,121,30,0.12);
+  --accent-hover: #e8912a;
+
+  --green:        #2e8a57;
+  --green-lite:   rgba(46,138,87,0.1);
+  --red:          #b83232;
+  --red-lite:     rgba(184,50,50,0.1);
+
+  --yamil:        #2a7e8a;
+  --yamil-lite:   rgba(42,126,138,0.1);
+  --celeste-c:    #b8446e;
+  --celeste-lite: rgba(184,68,110,0.1);
+
+  --pm-visa:        #3a7a4a;
+  --pm-visa-lite:   rgba(58,122,74,0.1);
+  --pm-amex:        #8a7020;
+  --pm-amex-lite:   rgba(138,112,32,0.1);
+  --pm-debito:      #6a5c50;
+  --pm-debito-lite: rgba(106,92,80,0.1);
+
+  --shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+/* Ajustes puntuales que las variables no resuelven solas */
+.theme-light input::placeholder,
+.theme-light textarea::placeholder { color: var(--text-dim); }
+.theme-light select option { background: var(--bg-card); color: var(--text); }
+.theme-light ::-webkit-scrollbar-thumb { background: var(--border-soft); }
+.theme-light .modal-overlay { background: rgba(26,22,18,0.5); }
+.theme-light .debt-callout  { background: rgba(212,121,30,0.08); }
+.theme-light .debt-ok       { background: rgba(46,138,87,0.08); }
+
+/* ── CARDS ROW — layout horizontal para tarjetas ─────────── */
+/* Desktop y móvil: siempre en fila, dos columnas balanceadas */
+.cards-row {
+  display: flex;
+  gap: 0.75rem;
+}
+.cards-row .card-sm {
+  flex: 1;
+}
+
+/* ── DASHBOARD BOTTOM GRID ───────────────────────────────── */
+/* Desktop: dos columnas lado a lado — dinero real | ingresos */
+/* Mobile: apilados verticalmente                             */
+.dashboard-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .dashboard-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
