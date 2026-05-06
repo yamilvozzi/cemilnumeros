@@ -80,6 +80,7 @@ export function useFinances(selectedMonth) {
   // ── CALCULATIONS ────────────────────────────────────────
 
   function calcSummary(userId) {
+    try {
     if (!userId || profiles.length < 2) return null
 
     const profileMap = {}
@@ -147,6 +148,10 @@ export function useFinances(selectedMonth) {
       debtResult,
       realTotal,
       myAccounts,
+    }
+    } catch (e) {
+      console.error('calcSummary error:', e)
+      return null
     }
   }
 
